@@ -74,10 +74,8 @@ while useramount > 0:
     else:
         #liking
         time.sleep(50 / 1000)
-        mx = random.randrange(800, 820)
-        my = random.randrange(500, 520)
         randsleepbtlike = random.randrange(0, 1)
-        pyautogui.moveTo(mx, my, duration=0.15)
+        pyautogui.moveTo(config.mx, config.my, duration=0.15)
         time.sleep(randsleepbtlike)
         mox, moy = pyautogui.position()
         pixel = pyautogui.screenshot(
@@ -91,9 +89,7 @@ while useramount > 0:
             pyautogui.press('right')
             print('slow loading post detected...')
             time.sleep(2)
-            mx = random.randrange(800, 820)
-            my = random.randrange(500, 520)
-            pyautogui.moveTo(mx, my, 0.25)
+            pyautogui.moveTo(config.mx, config.my, 0.25)
             time.sleep(randsleepbtlike)
             slowloadingpost+=1
             mox, moy = pyautogui.position()
@@ -129,7 +125,7 @@ while useramount > 0:
                 else:
                     print('Slow loading posts fixed... Continuing')
                     break
-        pyautogui.click(mx, my, clicks=2)
+        pyautogui.click(config.mx, config.my, clicks=2)
         useramount = (useramount - 1)
         print('liked... ' + str(int(useramount)) + ' posts left to go!')
         time.sleep(1 / 2) 
