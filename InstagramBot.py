@@ -3,7 +3,7 @@
 # I understand this entire thing is probably incredibly messy but this is
 # quite literally my second python project, unless you consider "Hello World"
 # to not be a project then this would be my first. If there's a bug feel free
-# to report it or make a commit to fix it yourself.
+# to report it or make a fork to fix it yourself.
 #
 # Also this was written by one guy on GitHub as a FOSS project, FOSS being
 # "Free and Open Source Software", if you see anyone monetizing off this code
