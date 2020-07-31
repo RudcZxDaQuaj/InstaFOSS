@@ -1,4 +1,4 @@
-#InstaFOSS (Python edition : GitHub release!!) version: 2.0
+#InstaFOSS (Python edition : GitHub release!!) version: 2.1
 # ---------------------------------------------------------------------------
 # I understand this entire thing is probably incredibly messy but this is
 # quite literally my second python project, unless you consider "Hello World"
@@ -39,31 +39,34 @@ while useramount > 0:
     skiptime = random.randrange(0, 1)
     totalamount+=1
     los = random.randint(0, 3)
-    s = pyautogui.locateOnScreen('actionblock.png')
-    if(s != None):
-        push = pb.push_note('InstagramBot: ActionBlock!', 'Please check Python Shell for more info')
-        print('--------ACTION BLOCKED--------')
-        print('Sorry for the inconvience, an action block on instagram')
-        print('just means that you probably entered too many likes, the')
-        print('average limit for actions on instagram is 1440 in 24')
-        print('hours, a temporary solution to this would be clearing')
-        print('clearing your browser cache for instagram and logging')
-        print('back in--It is recommended to only do around 500-700 likes')
-        print('per day, although this number would vary based on your')
-        print('daily activity.')
-        print(' ')
-        print('If there was no action block and this block was a false')
-        print('positive please let the developers know...')
-        print('--------ACTION BLOCKED--------')
-        print(' ')
-        input('Enter any key to exit...')
-        exit()
-    mox, moy = pyautogui.position()
-    pixel = pyautogui.screenshot(
-        region=(
-            mox, moy, 1, 1
+    if(config.ActionBlockDetection == True):
+        s = pyautogui.locateOnScreen('actionblock.png')
+        if(s != None):
+            if(config.pushbulletnotif == True):
+                push = pb.push_note('InstagramBot: ActionBlock!', 'Please check Python Shell for more info')
+            print('--------ACTION BLOCKED--------')
+            print('Sorry for the inconvience, an action block on instagram')
+            print('just means that you probably entered too many likes, the')
+            print('average limit for actions on instagram is 1440 in 24')
+            print('hours, a temporary solution to this would be clearing')
+            print('clearing your browser cache for instagram and logging')
+            print('back in--It is recommended to only do around 500-700 likes')
+            print('per day, although this number would vary based on your')
+            print('daily activity.')
+            print(' ')
+            print('If there was no action block and this block was a false')
+            print('positive please let the developers know...')
+            print('--------ACTION BLOCKED--------')
+            print(' ')
+            input('Enter any key to exit...')
+            exit()
+    if(config.ColorDetection == True):
+        mox, moy = pyautogui.position()
+        pixel = pyautogui.screenshot(
+            region=(
+                mox, moy, 1, 1
+            )
         )
-    )
     if(los == 0):
         #skipping
         time.sleep(50 / 100)
@@ -77,41 +80,22 @@ while useramount > 0:
         randsleepbtlike = random.randrange(0, 1)
         pyautogui.moveTo(config.mx, config.my, duration=0.15)
         time.sleep(randsleepbtlike)
-        mox, moy = pyautogui.position()
-        pixel = pyautogui.screenshot(
-            region=(
-               mox, moy, 1, 1,
-            )
-        )
-        time.sleep(1 / 500)
-        color = pixel.getcolors()
-        while(color == [(1, (239, 239, 239))]):
-            pyautogui.press('right')
-            print('slow loading post detected...')
-            time.sleep(2)
-            pyautogui.moveTo(config.mx, config.my, 0.25)
-            time.sleep(randsleepbtlike)
-            slowloadingpost+=1
+        if(config.ColorDetection == True):
             mox, moy = pyautogui.position()
             pixel = pyautogui.screenshot(
                 region=(
-                   mox, moy, 1, 1,
+                    mox, moy, 1, 1,
                 )
             )
+            time.sleep(1 / 500)
             color = pixel.getcolors()
-            if(slowloadingpost == 3):
-                print('(slow loading checks are not always accurate, probably more posts did not load! Please keep that in mind.)')
-                print('----------------------')
-                print('Roughly 5 slow loading posts detected, interrupting script as this poses a danger to your account being action blocked.')
-                print('Waiting 2:45 minutes before continuing...')
-                print('----------------------')
-                time.sleep(60)
+            while(color == [(1, (239, 239, 239))]):
                 pyautogui.press('right')
-                time.sleep(60)
-                pyautogui.press('right')
-                time.sleep(35)
-                slowloadingpost = 0
-                time.sleep(5)
+                print('slow loading post detected...')
+                time.sleep(2)
+                pyautogui.moveTo(config.mx, config.my, 0.25)
+                time.sleep(randsleepbtlike)
+                slowloadingpost+=1
                 mox, moy = pyautogui.position()
                 pixel = pyautogui.screenshot(
                     region=(
@@ -119,12 +103,32 @@ while useramount > 0:
                     )
                 )
                 color = pixel.getcolors()
-                if(color == [(1, (239, 239, 239))]):
-                    print('Sorry for the inconvience, slow loading posts are popping up often')
-                    break
-                else:
-                    print('Slow loading posts fixed... Continuing')
-                    break
+                if(slowloadingpost == 3):
+                    print('(slow loading checks are not always accurate, probably more posts did not load! Please keep that in mind.)')
+                    print('----------------------')
+                    print('Roughly 5 slow loading posts detected, interrupting script as this poses a danger to your account being action blocked.')
+                    print('Waiting 2:45 minutes before continuing...')
+                    print('----------------------')
+                    time.sleep(60)
+                    pyautogui.press('right')
+                    time.sleep(60)
+                    pyautogui.press('right')
+                    time.sleep(35)
+                    slowloadingpost = 0
+                    time.sleep(5)
+                    mox, moy = pyautogui.position()
+                    pixel = pyautogui.screenshot(
+                        region=(
+                           mox, moy, 1, 1,
+                        )
+                    )
+                    color = pixel.getcolors()
+                    if(color == [(1, (239, 239, 239))]):
+                        print('Sorry for the inconvience, slow loading posts are popping up often')
+                        break
+                    else:
+                        print('Slow loading posts fixed... Continuing')
+                        break
         pyautogui.click(config.mx, config.my, clicks=2)
         useramount = (useramount - 1)
         print('liked... ' + str(int(useramount)) + ' posts left to go!')
