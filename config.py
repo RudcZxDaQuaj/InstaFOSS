@@ -1,5 +1,5 @@
 import random
-pushbulletnotif = True #Setting this to True will turn on pushbullet notifications, if you 
+pushbulletnotif = False #Setting this to True will turn on pushbullet notifications, if you 
                         #leave it on True without putting your API token in 'pushbullet' will cause errors!
 
 #Resolution sets: un-comment which ever resolution your monitor running instagram has and comment out the ones that don't.
