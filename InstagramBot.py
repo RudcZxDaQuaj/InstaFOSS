@@ -13,31 +13,45 @@
 # like these but mine aims to be more efficent and most importantly free.
 # ---------------------------------------------------------------------------
 
-import random
-import time
-import pyautogui
-#custom modules
-import config
+import random, time, pyautogui, config
+from os import system
 from pushbullet import Pushbullet
 from instapushbullet import read, donenotif
+
+# I know it's bad practice to initalize variables at the top especially before they're used, but
+# I'm fairly new to python and I can't figure out a better way to do this, if you have a better
+# way please lemme know.
+skipnumber = 0
+slowloadingpost = 0
+totalamount = 0
+
 if(config.pushbulletnotif == True):
     read()
+def progress():
+    system('clear')
+    print(str(originaltotal - useramount + 1) + '/' + str(originaltotal))
+    print(status)
+    print('+----------+')
+    if(config.MoreStatusInfo == True):
+        fhop = (originaltotal - useramount + 1)
+        print('total number of posts seen: ' + str(totalamount))
+        print('total number of posts skipped: ' + str(skipnumber))
+        print('total number of posts liked: ' + str(fhop))
+        print('like/skip RNG: ' + str(los))
+        print(str(round(fhop / originaltotal * 100)) + '% of posts liked')
+        print('+---------+')
 
 pyautogui.PAUSE = 0.5
 pyautogui.failsafe = True
 
 print('Enter the amount of likes you wanna hand out')
 useramount = int(input())
-# I know it's bad practice to initalize variables at the top especially before they're used, but
-# I'm fairly new to python and I can't figure out a better way to do this, if you have a better
-# way please lemme know.
-totalamount = 0
-skipnumber = 0
-slowloadingpost = 0
+originaltotal = useramount
 
 while useramount > 0:
     skiptime = random.randrange(0, 1)
     totalamount+=1
+    status = ''
     los = random.randint(0, 3)
     if(config.ActionBlockDetection == True):
         s = pyautogui.locateOnScreen('actionblock.png')
@@ -69,13 +83,16 @@ while useramount > 0:
         )
     if(los == 0):
         #skipping
+        status+='Skipping...'
+        progress()
         time.sleep(50 / 100)
         pyautogui.press('right')
         skipnumber+=1
         time.sleep(skiptime)
-        print('skipped... took ' + str(int(skiptime)) + ' seconds to skip')
     else:
         #liking
+        status+='Liking...'
+        progress()
         time.sleep(50 / 1000)
         randsleepbtlike = random.randrange(0, 1)
         pyautogui.moveTo(config.mx, config.my, duration=0.15)
@@ -131,7 +148,6 @@ while useramount > 0:
                         break
         pyautogui.click(config.mx, config.my, clicks=2)
         useramount = (useramount - 1)
-        print('liked... ' + str(int(useramount)) + ' posts left to go!')
         time.sleep(1 / 2) 
         pyautogui.press('right')
         slowloadingpost = 0
